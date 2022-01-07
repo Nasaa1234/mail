@@ -5,12 +5,13 @@ const cors = require('cors')
 const nodemailer = require('nodemailer')
 
 app.use(cors())
-
+app.use(express.json())
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 app.post("/send", async (req, res) => {
-    
+    console.log(req.body)
+    const { mail, text , header} = req.body
     var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -21,9 +22,9 @@ app.post("/send", async (req, res) => {
 
     var mailOptions = {
         from: "nasaanasaa.070122@gmail.com",
-        to: "@munkhsaramdulmaa0@gmail.com",
-        subject: "Nasaa bna",
-        text: "Hello, Dear people",
+        to: mail,
+        subject: header,
+        text: text,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
